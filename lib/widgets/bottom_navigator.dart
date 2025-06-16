@@ -5,77 +5,78 @@ class BottomNavigator extends StatelessWidget {
   final Function(int) onTap;
 
   const BottomNavigator({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Hill-like background
-        CustomPaint(
-          size: const Size(double.infinity, 108),
-          painter: NavBarPainter(),
-        ),
+    final width = MediaQuery.of(context).size.width;
 
-        // Navigation Items
-        Positioned.fill(
-          top: 20,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _navItem(context, Icons.home_outlined, "home", 0),
-              _navItem(context, Icons.qr_code, "yolo pay", 1, isCenter: true),
-              _navItem(context, Icons.settings_outlined, "ginie", 2),
-            ],
+    return SizedBox(
+      height: 100, // Increase total height slightly
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          // Background curve
+          Positioned(
+            bottom: 0,
+            child: CustomPaint(
+              size: Size(width, 100),
+              painter: CurveFillPainter(),
+            ),
           ),
-        ),
-      ],
+
+          // Navigation items slightly lifted from bottom
+          Positioned(
+            bottom: 9, // <-- Key change: lift nav items above curve line
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _navItem(Icons.home_outlined, "home", 0),
+                _navItem(Icons.qr_code, "yolo pay", 1),
+                _navItem(Icons.settings_outlined, "ginie", 2),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _navItem(BuildContext context, IconData icon, String label, int index, {bool isCenter = false}) {
-    final isActive = currentIndex == index;
+  Widget _navItem(IconData icon, String label, int index) {
+    final isSelected = currentIndex == index;
+    final color = isSelected ? Colors.white : Colors.grey[600];
+    final borderColor = isSelected ? Colors.white : Colors.white24;
 
     return GestureDetector(
       onTap: () => onTap(index),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              if (isActive)
-                MouseRegion(
-                  child: Container(
-                    height: 64,
-                    width: 64,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              Icon(
-                icon,
-                color: Colors.white,
-                size: 28,
+          Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+              border: Border.all(
+                color: borderColor!,
+                width: 2,
               ),
-            ],
+            ),
+            child: Icon(icon, color: color, size: 22),
           ),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
-              color: isActive ? Colors.white : Colors.white,
-              fontSize: 12,
-              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+              color: color,
+              fontSize: 11.5,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),
         ],
@@ -84,31 +85,50 @@ class BottomNavigator extends StatelessWidget {
   }
 }
 
-class NavBarPainter extends CustomPainter {
+class CurveFillPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.fill;
-
     final path = Path();
-    path.moveTo(0, 0);
-    path.lineTo(size.width * 0.33 - 40, 0);
 
-    // Central hill curve
+    // Start slightly lower on the sides, higher peak in center
+    path.moveTo(0, size.height * 0.4);
+
     path.quadraticBezierTo(
-      size.width * 0.5, 80,
-      size.width * 0.66 + 40, 0,
+      size.width * 0.25, size.height * 0.005,   // first control point
+      size.width * 0.5, size.height * 0.02,    // peak
     );
 
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
+    path.quadraticBezierTo(
+      size.width * 0.75, size.height * 0.005,   // second control point
+      size.width, size.height * 0.4,           // end of curve
+    );
 
-    canvas.drawPath(path, paint);
-  }
+    final fillPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.fill;
+    canvas.drawPath(path, fillPaint);
+
+    final borderPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          Colors.grey.shade600,
+          Colors.white,
+          Colors.grey.shade600,
+        ],
+        stops: [0.0, 0.5, 1.0],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+
+    canvas.drawPath(path, borderPaint);
+
+
+
+}
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+

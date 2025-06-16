@@ -1,16 +1,21 @@
-# yolo_pay
+# YOLO Internship Task - Flutter UI
 
-A new Flutter project.
+This is the submission for the YOLO internship assignment.
 
-## Getting Started
+## 💻 Tech Stack
+- Flutter
+- REST API
 
-This project is a starting point for a Flutter application.
+## 🎥 Demo Video
+[Link to Demo Video](https://drive.google.com/file/d/1txRt-IOIJ4i5fygl39K0P6S8DXrVseLs/view?usp=sharing)
 
-A few resources to get you started if this is your first Flutter project:
+## 📱 Features
+- Pixel perfect UI as per Figma
+- All required functions integrated
+- Responsive design
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🔗 Figma Design Reference
+[Click here](https://www.figma.com/design/Bt4RVAPxsiVJDw6wZvpfn2/YOLO-Task-Jan-25?node-id=0-1&t=NfrKJVbuJIUuTAJ1-1)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🧑‍💻 Developer
+**Parmar Kirtan**

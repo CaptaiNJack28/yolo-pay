@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'screens/yolo_pay_screen.dart';
+import 'screens/splash_screen.dart'; // <-- add this
+// import 'screens/yolo_pay_screen.dart'; <-- keep for use inside splash
 
 void main() {
   runApp(const YoloApp());
@@ -21,7 +22,7 @@ class YoloApp extends StatelessWidget {
           bodyMedium: TextStyle(color: Colors.white),
         ),
       ),
-      home: const YoloPayScreen(),
+      home: const SplashScreen(),
     );
   }
 }
