@@ -7,7 +7,7 @@ This is the submission for the YOLO internship assignment.
 - REST API
 
 ## 🎥 Demo Video
-[Link to Demo Video](https://drive.google.com/file/d/1ui4ThsaHbbtUFBu82cNHBsVAJl3xLwAM/view?usp=drive_link)
+[Link to Demo Video](https://drive.google.com/file/d/1ui4ThsaHbbtUFBu82cNHBsVAJl3xLwAM/view?usp=sharing)
 
 ## 📱 Features
 - Pixel perfect UI as per Figma
